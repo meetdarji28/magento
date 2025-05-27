@@ -12,6 +12,7 @@ MAGENTO_PRIVATE_KEY=123
 
 4. Go to the Docker container and run the setup script:
  - docker exec -it magento_web /bin/bash
+ - chmod +x setup.sh
  - bash setup.sh
 
 All done, you can now check the Magento http://localhost:8300/ URL, it will run.
