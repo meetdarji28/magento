@@ -37,3 +37,5 @@ php -d memory_limit=1025M bin/magento setup:install \
   --session-save-redis-host=$REDIS_HOST \
   --session-save-redis-port=$REDIS_PORT \
   --session-save-redis-password=$REDIS_PASSWORD
+
+chown -R www-data:www-data /var/www/html/magento2
