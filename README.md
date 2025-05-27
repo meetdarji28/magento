@@ -12,6 +12,8 @@ MYSQL_PASSWORD=admin@123
 REDIS_PASSWORD=admin@123
 
 
+
+
 1. First, clone this repo on the  server
 2. Go to that directory & run the following command:
  - docker-compose up -d
