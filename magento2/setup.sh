@@ -6,6 +6,7 @@ set +a
 
 # Configure Composer Magento repo auth using .env.magento
 composer config --global http-basic.repo.magento.com "$MAGENTO_PUBLIC_KEY" "$MAGENTO_PRIVATE_KEY"
+composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition=2.4.7-p3 magento2
 
 set -a
 source .env
