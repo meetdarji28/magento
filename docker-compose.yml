@@ -10,7 +10,6 @@ services:
     ports:
       - "8300:80"
     working_dir: /var/www/html
-    command: ["bash", "-c", "apache2-foreground & sleep 10 && bash setup.sh"]
     depends_on:
       - db
       - redis
