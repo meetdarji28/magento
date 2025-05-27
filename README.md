@@ -15,8 +15,12 @@ For any query please get in touch with me at meetdarji111@gmail.com
 
 
 MYSQL_ROOT_PASSWORD=admin@123 
+
 MYSQL_DATABASE=magento_DB 
+
 MYSQL_USER=magento 
+
 MYSQL_PASSWORD=admin@123 
+
 REDIS_PASSWORD=admin@123 
 
