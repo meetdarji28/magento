@@ -1,0 +1,32 @@
+# Base image
+FROM php:8.1-apache
+
+# Install dependencies and PHP extensions required by Magento
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libzip-dev zip unzip git curl libpng-dev libjpeg-dev libfreetype6-dev \
+    libonig-dev libxml2-dev libicu-dev libxslt1-dev libcurl4-openssl-dev \
+    default-mysql-client \
+    && docker-php-ext-configure intl \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install \
+        pdo_mysql zip intl xsl soap opcache gd bcmath sockets \
+    && pecl install redis \
+    && docker-php-ext-enable redis \
+    && a2enmod rewrite \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Install Composer globally
+RUN curl -sS https://getcomposer.org/installer | php && \
+    mv composer.phar /usr/local/bin/composer && \
+    chmod +x /usr/local/bin/composer
+
+# Set working directory
+WORKDIR /var/www/html
+
+# Set proper permissions
+RUN chown -R www-data:www-data /var/www/html
+
+# Expose Apache port
+EXPOSE 80
+
+CMD ["apache2-foreground"]

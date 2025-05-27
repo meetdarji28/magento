@@ -1,0 +1,75 @@
+version: '3.8'
+
+services:
+  web:
+    image: meetdarji28/magento_web:latest
+    container_name: magento_web
+    volumes:
+      - ./magento2:/var/www/html
+      - ./apache2/000-default.conf:/etc/apache2/sites-available/000-default.conf
+    ports:
+      - "8300:80"
+    working_dir: /var/www/html
+    command: ["bash", "-c", "apache2-foreground & sleep 10 && bash setup.sh"]
+    depends_on:
+      - db
+      - redis
+      - elasticsearch
+    networks:
+      magento_net:
+        ipv4_address: 172.20.0.10
+
+  db:
+    image: mysql:8.0
+    container_name: magento_db
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "8301:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      magento_net:
+        ipv4_address: 172.20.0.11
+
+  redis:
+    image: redis:alpine3.21
+    container_name: magento_redis
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+    ports:
+      - "8302:6379"
+    networks:
+      magento_net:
+        ipv4_address: 172.20.0.12
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.10
+    container_name: magento_es
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    ports:
+      - "8303:9200"
+    networks:
+      magento_net:
+        ipv4_address: 172.20.0.13
+
+volumes:
+  db_data:
+
+networks:
+  magento_net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
