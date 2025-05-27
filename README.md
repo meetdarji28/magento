@@ -2,9 +2,15 @@
 Magento setup with Docker
 
 1. First, clone this repo on the  server
+
 2. Go to that directory & run the following command:
  - docker-compose up -d
-3. Go to the Docker container and run the setup script:
+
+3. Put Magento username and password in magento2/.env.magento file, Like: 
+MAGENTO_PUBLIC_KEY=123
+MAGENTO_PRIVATE_KEY=123
+
+4. Go to the Docker container and run the setup script:
  - docker exec -it magento_web /bin/bash
  - bash setup.sh
 
