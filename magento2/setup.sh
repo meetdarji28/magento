@@ -1,4 +1,12 @@
 #!/bin/bash
+
+set -a
+source .env.magento   # <-- Load Magento Marketplace credentials
+set +a
+
+# Configure Composer Magento repo auth using .env.magento
+composer config --global http-basic.repo.magento.com "$MAGENTO_PUBLIC_KEY" "$MAGENTO_PRIVATE_KEY"
+
 set -a
 source .env
 set +a
